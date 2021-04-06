@@ -1,0 +1,314 @@
+#! /bin/bash
+
+#laco de repeticao infinito
+while true 1 == 1 
+do
+	#menu de opcao
+	echo ""
+	echo "Selecione uma opcao"
+	echo "1 - Criar arquivo"
+	echo "2 - Criar pasta"
+	echo "3 - Excluir arquivo/pasta"
+	echo "4 - Trocar o nome do arquivo"
+	echo "5 - Copiar arquivo para outro diretorio"
+	echo "6 - Recortar arquivo para outro diretrio"
+	echo "7 - Visualizar arquivos na pasta"
+	echo "0 - Sair"
+
+	#ler a opcao digitada
+	read opcao
+	clear
+
+	#executar a funcao conforme a opcao desejada
+	case $opcao in
+
+		#case criar arquivo
+		1)
+			#solicitando o diretorio onde sera criado o arquivo
+			echo "Digite o diretorio onde sera criado o arquivo. (ex: /pasta1/pasta2)"
+			read diretorio_criar
+
+			#Verificar se o diretorio existe
+			if [ ! -d $diretorio_criar ]; then
+				echo ""
+				echo "O diretorio nao existe!"
+			else
+				#mostrando arquivos do diretorio digitado
+				echo ""
+				cd $diretorio_criar
+				echo "Arquivos do diretorio digitado."
+				ls
+
+				echo ""
+				echo "Digite o nome do arquivo."
+				read nome_criar
+
+				#Verifica se ja existe um arquivo com o mesmo nome do que foi digitado
+				if [ -e $diretorio_criar/$nome_criar ]; then
+					echo ""
+					echo "Ja existe um arquivo com este nome!"
+				else
+					#cria o arquivo
+					echo ""
+					cd $diretorio_criar
+					touch $nome_criar
+					echo "Arquivo criado!"
+				fi
+			fi
+		;;
+
+		#case criar pasta
+		2)
+			#solicitando o diretorio onde sera criado a pasta
+			echo "Digite o diretorio onde sera criado a pasta. (ex: /pasta1/pasta2)"
+                        read diretorio_criar
+
+			#Verificar se o diretorio existe
+			if [ ! -d $diretorio_criar ]; then
+                                echo ""
+                                echo "O diretorio nao existe!"
+                        else
+				#mostrando arquivos do diretorio digitado
+                                echo ""
+                                cd $diretorio_criar
+                                echo "Arquivos do diretorio digitado."
+                                ls
+
+                                echo ""
+                                echo "Digite o nome da pasta."
+                                read nome_criar
+
+				#Verifica se ja existe um arquivo com o mesmo nome do que foi digitado
+				if [ -e $diretorio_criar/$nome_criar ]; then
+                                        echo ""
+                                        echo "Ja existe um arquivo com este nome!"
+                                else
+					#Criando pasta
+                                        echo ""
+                                        cd $diretorio_criar
+                                        mkdir $nome_criar
+                                        echo "Arquivo criado!"
+				fi
+			fi
+		;;
+
+		#case Excluir arquivo/pasta
+		3)
+			#solicitando o diretorio onde sera excluido arquivo/pasta
+			echo "Digite o diretorio onde esta o arquivo que deseja excluir. (ex: /pasta1/pasta2)"
+			read diretorio_excluir
+
+			#Verificar se o diretorio existe
+			if [ ! -d $diretorio_excluir ]; then
+				echo ""
+				echo "O diretorio nao existe!"
+			else
+				#mostrando arquivos do diretorio digitado
+				cd $diretorio_excluir
+				echo ""
+				echo "Arquivos do diretorio digitado."
+				ls
+
+				echo ""
+				echo "Digite o nome do arquivo que deseja excluir."
+				read nome_excluir
+
+				#verificando se o arquivo existe
+				if [ ! -e $diretorio_excluir/$nome_excluir ]; then
+					echo ""
+					echo "O arquivo nao existe!"
+				else
+					#excluido arquivo
+					echo ""
+					cd $diretorio_excluir
+					rm -rf $nome_excluir
+					echo "Arquivo Excluido!"
+				fi
+			fi
+		;;
+
+		#case trocar nome do arquivo
+		4)
+			#solicitando o diretorio onde sera excluido arquivo/pasta
+			echo "Digite o diretorio onde esta o arquivo que deseja renomear. (ex: /pasta1/pasta2)"
+			read diretorio_mudarnome
+
+			#verificando se o diretorio existe
+			if [ ! -d $diretorio_mudarnome ]; then
+				echo ""
+	                        echo "O diretorio nao existe!"
+	                else
+				#mostrando arquivos do diretorio digitado
+				echo ""
+				echo "Arquvivos do diretorio digitado."
+				cd $diretorio_mudarnome
+				ls
+
+				#solicitando nome do arquivo que deseja renomear
+				echo ""
+				echo "Digite o nome do arquivo ou a pasta que deseja renomear."
+				read nome_antigo
+
+				#verificando se o arquivo digitado existe
+	                        if [ ! -e $diretorio_mudarnome/$nome_antigo ]; then
+					echo ""
+	                                echo "O arquivo nao existe!"
+	                        else
+					#solicitando novo nome do arquivo
+					echo ""
+					echo "Definir novo nome."
+					read nome_novo
+
+					#efetuando a troca do nome do arquivo
+					echo ""
+	                                cd $diretorio_mudarnome
+	                                mv $nome_antigo $nome_novo
+	                                echo "Arquivo renomeado!"
+	                        fi
+	                fi
+		;;
+
+		#Copiar arquivo para outro diretorio
+		5)
+			#solicitando o diretorio onde esta o arquivo que sera copiado
+			echo "Digite o diretorio onde esta o arquivo que deseja copiar. (ex: /pasta1/pasta2)"
+			read diretorio_raiz
+
+			#verificando se o diretorio existe
+			if [ ! -d $diretorio_raiz ]; then
+				echo ""
+				echo "O diretorio nao existe!"
+			else
+				#mostrando os arquivos do diretorio digitado
+				echo ""
+				echo "Arquivos do diretorio digitado."
+				cd $diretorio_raiz
+				ls
+
+				#solicitando o nome do arquivo que sera copiado
+				echo ""
+				echo "digite o nome do arquivo."
+				read nome_arquivo
+
+				#verificando se o arquivo digitado existe
+				if [ ! -e $nome_arquivo ]; then
+					echo ""
+					echo "O arquivo nao existe!"
+				else
+					#solicitando o diretorio para o onde sera copiado o arquivo
+					echo ""
+					echo "digite o diretorio para onde deseja copiar o arquivo. (ex: /pasta1/pasta2)"
+					read diretorio_movimentar
+
+					#verificando se o diretorio para onde sera copiado o arquivo existe
+					if [ ! -d $diretorio_movimentar ]; then
+						echo ""
+						echo "O diretorio nao existe!"
+					else
+						#verificando se existe um arquivo com o mesmo nome no diretorio para onde o arquivo
+						# sera copiado
+						if [ -e $diretorio_movimentar/$nome_arquivo ]; then
+							echo ""
+							echo "No diretorio que deseja copiar ja existe um arquivo com o mesmo nome."
+						else
+							#copiando arquivo
+							echo ""
+							cp $nome_arquivo $diretorio_movimentar
+							echo "Arquivo copiado!"
+						fi
+					fi
+				fi
+			fi
+		;;
+
+		#Recortar arquivo para outro diretrio
+		6)
+			#solicitando diretorio onde esta o arquivo que sera recortado
+			echo "Digite o diretorio onde esta o arquivo que deseja movimentar. (ex: /pasta1/pasta2)"
+                        read diretorio_raiz
+
+			#verificando se o diretorio existe
+                        if [ ! -d $diretorio_raiz ]; then
+                                echo ""
+                                echo "O diretorio nao existe!"
+                        else
+				#mostando os arquivo do diretorio digitado
+                                echo ""
+                                echo "Arquivos do diretorio digitado."
+                                cd $diretorio_raiz
+                                ls
+
+				#solicitando o nome do arquivo que sera recortado
+                                echo ""
+                                echo "digite o nome do arquivo."
+                                read nome_arquivo
+
+				#verificando se o nome do arquivo existe
+                                if [ ! -e $nome_arquivo ]; then
+                                        echo ""
+                                        echo "O arquivo nao existe!"
+                                else
+					#solicitando o diretorio onde sera colado o arquivo recortado
+                                        echo ""
+                                        echo "digite o diretorio para onde deseja movimentar o arquivo. (ex: /pasta1/pasta2)"
+                                        read diretorio_movimentar
+
+					#verificando se o diretorio digitado existe
+                                        if [ ! -d $diretorio_movimentar ]; then
+                                                echo ""
+                                                echo "O diretorio nao existe!"
+                                        else
+						#verificando se existe um arquivo com o mesmo nome no diretorio para onde o arquivo
+                                                # sera colado
+                                                if [ -e $diretorio_movimentar/$nome_arquivo ]; then
+						echo ""
+                                                        echo "No diretorio que deseja movimentar ja existe um arquivo com o mesmo nome."
+                                                else
+							#colando arquivo
+                                                        echo ""
+                                                        mv $nome_arquivo $diretorio_movimentar
+                                                        echo "Arquivo movimentado!"
+                                                fi
+                                        fi
+                                fi
+                        fi
+		;;
+
+		#visualiar arquivos na pasta
+		7)
+			#solicitando diretorio onde deseja visualizar
+			echo "Digite o diretorio que deseja visualizar. (ex: /pasta1/pasta2)"
+                        read diretorio_visualizar
+
+			#verifica se o diretorio existe
+                        if [ ! -d $diretorio_visualizar ]; then
+                                echo ""
+                                echo "O diretorio nao existe!"
+                        else
+				#mostrando arquivo do diretorio solicitado
+                                echo ""
+                                cd $diretorio_visualizar
+                                echo "Arquivos do diretorio digitado."
+                                ls
+			fi
+
+		;;
+
+		#sair do script
+		0)
+			#saindo do script
+			echo ""
+			echo "Saindo..."
+			sleep 2
+			clear
+			exit
+		;;
+
+		#opcao invalida
+		*)
+			echo ""
+			echo "Opcao invalida!"
+		;;
+	esac
+
+done
